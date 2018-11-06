@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.project.viewtest.widget.FlowLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e6e6e6"
+        android:id="@+id/layout"
+        tools:context="com.project.viewtest.MainActivity">
+
+        <com.project.viewtest.widget.RadialGradientView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FlowLayout"
+            android:textColor="#000000"
+            android:id="@+id/main_flow_layout"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"/>
+
+        <com.project.viewtest.widget.RadialGradientView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WaterFallLayout"
+            android:textColor="#000000"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/main_water_fall_layout"/>
+
+        <com.project.viewtest.widget.RadialGradientView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:textColor="#000000"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/main_test_layout"/>
+
+        <com.project.viewtest.widget.RadialGradientView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SpringView"
+            android:textColor="#000000"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/main_spring_layout"/>
+
+        <com.project.viewtest.widget.RadialGradientView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RadialGradientView"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textColor="#000000"
+            android:id="@+id/main_radial_gradient_view"/>
+
+        <com.project.viewtest.widget.RadialGradientView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LoadButton"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textColor="#000000"
+            android:id="@+id/main_load_Button"/>
+
+        <com.project.viewtest.widget.RadialGradientView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LyricsView"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textColor="#000000"
+            android:id="@+id/main_lyrics_view"/>
+
+    </com.project.viewtest.widget.FlowLayout>
+</layout>
