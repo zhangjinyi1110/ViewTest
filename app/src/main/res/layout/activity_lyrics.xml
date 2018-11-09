@@ -3,11 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.project.viewtest.activity.LyricsActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="next"
+        android:id="@+id/lyrics_next"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="last"
+        android:id="@+id/lyrics_last"
+        app:layout_constraintLeft_toRightOf="@id/lyrics_next"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="back"
+        android:id="@+id/lyrics_back"
+        app:layout_constraintLeft_toRightOf="@id/lyrics_last"/>
 
     <com.project.viewtest.widget.LyricsView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lyrics_view"/>
+        android:id="@+id/lyrics_view"
+        app:layout_constraintTop_toBottomOf="@id/lyrics_last"/>
 
 </android.support.constraint.ConstraintLayout>

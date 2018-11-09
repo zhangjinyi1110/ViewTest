@@ -1,5 +1,8 @@
 package com.project.viewtest.widget;
 
+import android.animation.Animator;
+import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,6 +14,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 2018/11/6.
  * 歌词View
@@ -19,17 +25,15 @@ import android.view.View;
 public class LyricsView extends View {
 
     private Context context;
-    private Paint currPaint;
-    private Paint secondPaint;
-    private Paint surplusPaint;
-    private int position;
-    private int currPosition;
-    private int currHeight;
-    private int secondHeight;
-    private int surplusHeight;
-    private float move;
-    private float down;
     private final String TAG = LyricsView.class.getSimpleName();
+    private List<String> lyrics;
+    private int position;
+    private Paint paint;
+    //    private Path path;
+    private float maxHeight;
+    private float maxTextSize;
+    private float down;
+    private float move;
 
     public LyricsView(Context context) {
         super(context);
@@ -50,70 +54,226 @@ public class LyricsView extends View {
     }
 
     private void init(AttributeSet attrs, int defStyleAttr) {
-        currPaint = new Paint();
-        currPaint.setColor(Color.BLACK);
-        currPaint.setTextSize(90);
-        secondPaint = new Paint();
-        secondPaint.setColor(Color.GRAY);
-        secondPaint.setTextSize(75);
-        surplusPaint = new Paint();
-        surplusPaint.setColor(Color.GRAY);
-        surplusPaint.setTextSize(60);
-        position = 0;
-        currPosition = position;
         setClickable(true);
+        lyrics = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            lyrics.add("后即可发顺丰喝口水" + i);
+        }
+        position = 0;
+        maxTextSize = 80;
+        paint = new Paint();
+        paint.setTextSize(maxTextSize);
+        paint.setColor(Color.BLACK);
+        Paint.FontMetricsInt fontMetricsInt = paint.getFontMetricsInt();
+        maxHeight = fontMetricsInt.bottom - fontMetricsInt.top;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < lyrics.size(); i++) {
             canvasText(canvas, i);
         }
     }
 
     private void canvasText(Canvas canvas, int i) {
-        Paint paint;
-        paint = currPaint;
-        paint.setTextSize(90 - (Math.abs(i - position) * 10));
+        float midpointX = getWidth() / 2;
+        float midpointY = getHeight() / 2;
+        float offset = (Math.abs(move) / maxHeight);
+        int curr = position - (int) (move / maxHeight);
+        if (move < 0) {
+            if (i <= position) {
+                offset *= -1;
+            } else if (i <= curr) {
+                float remainder = (Math.abs(move) % maxHeight) / maxHeight;
+                offset = Math.abs(i - position) - Math.abs(curr - i) - remainder;
+            }
+        } else if (move > 0) {
+            if (i >= position) {
+                offset *= -1;
+            } else if (i >= curr) {
+                float remainder = (Math.abs(move) % maxHeight) / maxHeight;
+                Log.i(TAG, "canvasText: " + remainder);
+                offset = Math.abs(i - position) - Math.abs(curr - i) - remainder;
+            }
+        }
+        float size = maxTextSize - (Math.abs(i - position) * 8) + offset * 8;
+        paint.setTextSize(size);
         Rect rect = new Rect();
-        String test = "阿法水电费水电费" + i;
-        paint.getTextBounds(test, 0, test.length(), rect);
+        String lyric = lyrics.get(i);
+        paint.getTextBounds(lyric, 0, lyric.length(), rect);
+        float x = midpointX - rect.width() / 2;
         Paint.FontMetricsInt fontMetricsInt = paint.getFontMetricsInt();
-        float x = getWidth() / 2 - rect.width() / 2;
-        float y = (getHeight() / 2 + ((fontMetricsInt.descent - fontMetricsInt.ascent) / 2 - fontMetricsInt.descent)) + (currHeight) * (i - position) + move;
-        canvas.drawText(test, x, y, paint);
+        float baseline = (fontMetricsInt.descent - fontMetricsInt.ascent) / 2 - fontMetricsInt.descent;
+        float y = midpointY + baseline + (i - position) * maxHeight + move;
+        canvas.drawText(lyric, x, y, paint);
     }
 
-    @SuppressLint("DrawAllocation")
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int measureWidth = MeasureSpec.getSize(widthMeasureSpec);
-        int measureHeight = MeasureSpec.getSize(heightMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        currHeight = (currPaint.getFontMetricsInt().bottom - currPaint.getFontMetricsInt().top);
-        secondHeight = (secondPaint.getFontMetricsInt().bottom - secondPaint.getFontMetricsInt().top);
-        surplusHeight = (surplusPaint.getFontMetricsInt().bottom - surplusPaint.getFontMetricsInt().top);
-//        Log.i("measure", "onMeasure: " + currHeight + "/" + (currPaint.getFontMetricsInt().bottom - currPaint.getFontMetricsInt().top) + "/" + (currPaint.getFontMetricsInt().descent - currPaint.getFontMetricsInt().ascent));
-        int warpHeight = currHeight * 2 + secondHeight * 2 + surplusHeight * 2;
-        setMeasuredDimension(measureWidth, heightMode == MeasureSpec.EXACTLY ? measureHeight : warpHeight);
+        int warpHeight = (int) (maxHeight * 5);
+        int height = MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY ? MeasureSpec.getSize(heightMeasureSpec) : warpHeight;
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), height);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            move = 0;
-            currPosition = position;
-            postInvalidate();
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            down = event.getY();
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            move = event.getY() - down;
+            int remainder = Math.abs(move) % maxHeight >= maxHeight / 2 ? move > 0 ? 1 : -1 : 0;
+            int movePosition = (int) (move / maxHeight) + remainder;
+            position -= movePosition;
+            if (position < 0) {
+                float h = position * maxHeight + Math.abs(move) % maxHeight / maxHeight;
+                anim(h);
+            } else if (position > lyrics.size() - 1) {
+                float h = (position - lyrics.size() + 1) * maxHeight + Math.abs(move) % maxHeight / maxHeight;
+                Log.i(TAG, "onTouchEvent: " + h + "/" + position);
+                anim(h);
+            } else {
+                move = 0;
+                postInvalidate();
+            }
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
             move = event.getY() - down;
-            position = currPosition -((int) (move / currHeight) + (((move % currHeight) >= (currHeight / 2)) ? 1 : 0));
-            Log.i(TAG, "onTouchEvent: " + (move / currHeight) + "/" + position + "/" + (((move % currHeight) >= (currHeight / 2)) ? 1 : 0));
             postInvalidate();
-        } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            down = event.getY();
         }
         return super.onTouchEvent(event);
+    }
+
+    private void anim(final float height) {
+        ValueAnimator animator = ValueAnimator.ofFloat(height);
+        animator.setInterpolator(new TimeInterpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                return input;
+            }
+        });
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                move = (float) animation.getAnimatedValue();
+                Log.i("onTouchEvent", "onAnimationUpdate: " + move);
+                postInvalidate();
+            }
+        });
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                move = 0;
+                if (height < 0) {
+                    position = 0;
+                } else if (height > 0) {
+                    position = lyrics.size() - 1;
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animator.setDuration(100);
+        animator.start();
+    }
+
+    public void next() {
+        if (position == lyrics.size() - 1) {
+            return;
+        }
+        ValueAnimator animator = ValueAnimator.ofFloat(-maxHeight);
+        animator.setDuration(100);
+        animator.setInterpolator(new TimeInterpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                return input;
+            }
+        });
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                move = (float) animation.getAnimatedValue();
+                postInvalidate();
+            }
+        });
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                move = 0;
+                position++;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animator.start();
+    }
+
+    public void last() {
+        if (position == 0) {
+            return;
+        }
+        ValueAnimator animator = ValueAnimator.ofFloat(maxHeight);
+        animator.setDuration(100);
+        animator.setInterpolator(new TimeInterpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                return input;
+            }
+        });
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                move = (float) animation.getAnimatedValue();
+                postInvalidate();
+            }
+        });
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                move = 0;
+                position--;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animator.start();
     }
 }

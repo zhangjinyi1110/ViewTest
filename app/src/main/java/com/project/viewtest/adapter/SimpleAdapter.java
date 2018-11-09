@@ -20,6 +20,10 @@ public abstract class SimpleAdapter<T, B extends ViewDataBinding> extends Recycl
     private List<T> list;
     private Context context;
 
+    public SimpleAdapter(Context context) {
+        this.context = context;
+    }
+
     public SimpleAdapter(List<T> list, Context context) {
         this.list = list;
         this.context = context;
@@ -49,7 +53,7 @@ public abstract class SimpleAdapter<T, B extends ViewDataBinding> extends Recycl
         convert((B) holder.binding, list.get(position), position);
     }
 
-    protected void convert(B binding, T t, int position, List<Object> payloads){
+    protected void convert(B binding, T t, int position, List<Object> payloads) {
 
     }
 
@@ -57,7 +61,12 @@ public abstract class SimpleAdapter<T, B extends ViewDataBinding> extends Recycl
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
+    }
+
+    public void setList(List<T> list) {
+        this.list = list;
+        notifyDataSetChanged();
     }
 
     @SuppressWarnings("unchecked")

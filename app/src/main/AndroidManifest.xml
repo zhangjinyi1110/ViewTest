@@ -23,7 +23,10 @@
         <activity android:name=".activity.SpringActivity" />
         <activity android:name=".activity.RadialGradientActivity" />
         <activity android:name=".activity.LoadButtonActivity" />
-        <activity android:name=".activity.LyricsActivity"></activity>
+        <activity android:name=".activity.LyricsActivity" />
+        <activity android:name=".test.WordActivity" >
+        </activity>
+        <activity android:name=".test.NewWordActivity"/>
     </application>
 
 </manifest>
