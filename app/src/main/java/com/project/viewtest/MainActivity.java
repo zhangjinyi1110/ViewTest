@@ -11,6 +11,7 @@ import com.project.viewtest.activity.FlowActivity;
 import com.project.viewtest.activity.LoadButtonActivity;
 import com.project.viewtest.activity.LyricsActivity;
 import com.project.viewtest.activity.RadialGradientActivity;
+import com.project.viewtest.activity.RefreshActivity;
 import com.project.viewtest.activity.SpringActivity;
 import com.project.viewtest.activity.TestActivity;
 import com.project.viewtest.activity.WaterFallActivity;
@@ -65,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(LyricsActivity.class);
+            }
+        });
+        binding.mainRefreshLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(RefreshActivity.class);
             }
         });
     }

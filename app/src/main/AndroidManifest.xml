@@ -24,9 +24,9 @@
         <activity android:name=".activity.RadialGradientActivity" />
         <activity android:name=".activity.LoadButtonActivity" />
         <activity android:name=".activity.LyricsActivity" />
-        <activity android:name=".test.WordActivity" >
-        </activity>
-        <activity android:name=".test.NewWordActivity"/>
+        <activity android:name=".test.WordActivity"></activity>
+        <activity android:name=".test.NewWordActivity" />
+        <activity android:name=".activity.RefreshActivity"></activity>
     </application>
 
 </manifest>
