@@ -69,6 +69,16 @@ public abstract class SimpleAdapter<T, B extends ViewDataBinding> extends Recycl
         notifyDataSetChanged();
     }
 
+    public void addList(List<T> list){
+        this.list.addAll(list);
+        notifyItemRangeInserted(this.list.size() - list.size() - 1, list.size());
+    }
+
+    public void addItem(T item){
+        list.add(item);
+        notifyItemRangeInserted(list.size() - 1, 1);
+    }
+
     @SuppressWarnings("unchecked")
     class ViewHolder extends RecyclerView.ViewHolder {
         B binding;

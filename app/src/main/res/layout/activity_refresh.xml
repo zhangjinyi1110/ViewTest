@@ -7,14 +7,14 @@
 
     <com.project.viewtest.widget.RefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/refresh_view">
 
-        <TextView
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center"
-            android:text="@string/app_name"/>
+            android:layout_height="match_parent"
+            android:id="@+id/refresh_recycler"
+            android:background="@color/colorAccent"/>
 
     </com.project.viewtest.widget.RefreshLayout>
 

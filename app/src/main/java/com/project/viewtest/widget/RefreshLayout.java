@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,6 +20,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 
 import com.project.viewtest.ConstantInterpolation;
+import com.project.viewtest.R;
 import com.project.viewtest.utils.SizeUtils;
 
 /**
@@ -35,12 +37,13 @@ public class RefreshLayout extends ViewGroup {
     private boolean refreshing;
     private boolean sliding;
     private boolean animing;
-    private float refreshHeight = 300;
+    private float refreshHeight;
     private View refreshView;
     private Paint paint;
     private float waveHeight;
-    private float waveTailHeight = 200;
-    private float waveValue = 0;
+    private float waveTailHeight;
+    private float waveValue;
+    private OnRefreshListener listener;
 
     public RefreshLayout(Context context) {
         super(context);
@@ -62,9 +65,12 @@ public class RefreshLayout extends ViewGroup {
 
     private void init(AttributeSet attrs, int defStyleAttr) {
         setClickable(true);
+        refreshHeight = SizeUtils.dp2px(context, 100);
+        waveTailHeight = SizeUtils.dp2px(context, 70);
         ProgressBar textView = new ProgressBar(context);
         int size = SizeUtils.dp2px(context, 5);
         textView.setPadding(size, size, size, size);
+        textView.setBackgroundResource(R.drawable.progress_bar_bg);
         textView.setLayoutParams(new LayoutParams(SizeUtils.dp2px(context, 35), SizeUtils.dp2px(context, 35)));
         refreshView = textView;
         addView(refreshView);
@@ -72,16 +78,15 @@ public class RefreshLayout extends ViewGroup {
         paint.setColor(Color.BLUE);
         setWillNotDraw(false);
         refreshView.setVisibility(INVISIBLE);
+        setChildrenDrawingOrderEnabled(true);
     }
 
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         if (refreshing) {
-            Path path = new Path();
-            path.addCircle(getWidth() / 2, move - refreshView.getHeight() / 2, refreshView.getHeight() / 2, Path.Direction.CW);
-            canvas.drawPath(path, paint);
             refreshView.setVisibility(VISIBLE);
+            Log.i(TAG, "onDraw: ");
         }
     }
 
@@ -158,6 +163,18 @@ public class RefreshLayout extends ViewGroup {
     }
 
     @Override
+    protected int getChildDrawingOrder(int childCount, int i) {
+//        Log.i(TAG, "getChildDrawingOrder: " + i + "/" + childCount);
+//        return super.getChildDrawingOrder(childCount, i);
+        if(i==childCount-1){
+            Log.i(TAG, "getChildDrawingOrder: " + 0 + "/" + childCount);
+            return 0;
+        }
+        Log.i(TAG, "getChildDrawingOrder: " + 1 + "/" + childCount);
+        return i + 1;
+    }
+
+    @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 //        super.onLayout(changed, l, t, r, b);
 //        refreshView.layout(getMeasuredWidth() / 2 - refreshView.getMeasuredWidth() / 2, (int) (-refreshView.getMeasuredHeight() + move), getMeasuredWidth() / 2 + refreshView.getMeasuredWidth() / 2, (int) move);
@@ -173,43 +190,96 @@ public class RefreshLayout extends ViewGroup {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Log.i(TAG, "onTouchEvent: " + event.getAction());
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            View view = getChildAt(1);
-            if (view.getTop() == 0 && !refreshing && !sliding && !animing) {
-                down = event.getY();
-                sliding = true;
-            }
+//            View view = getChildAt(1);
+//            Log.i(TAG, "onTouchEvent: " + (view instanceof RecyclerView) + "/" + view.getTop());
+//            if (view.getTop() == 0 && !refreshing && !sliding && !animing) {
+//                down(event.getY());
+//            }
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
             View view = getChildAt(1);
-            if (view.getTop() == 0 && !refreshing && !sliding && !animing) {
-                down = event.getY();
-                sliding = true;
-            }
-            if (sliding) {
-                move = event.getY() - down;
-                if (move > refreshHeight) {
-                    animing = true;
-                    sliding = false;
-                    anim();
-                } else {
-                    requestLayout();
-                    postInvalidate();
+            if(view instanceof RecyclerView){
+                if (!view.canScrollVertically(-1) && !refreshing && !sliding && !animing) {
+                    down(event.getY());
+                }
+                if (sliding) {
+                    move(event.getY());
                 }
             }
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             if (sliding) {
+                upAnim();
+            } else if (!refreshing && !animing){
                 down = 0;
                 move = 0;
-                sliding = false;
+            }
+        }
+        Log.i(TAG, "dispatchTouchEvent: " + refreshing + "/" + sliding + "/" + animing);
+        return refreshing || sliding || animing || super.dispatchTouchEvent(event);
+    }
+
+    private void move(float y) {
+        move = y - down;
+        if(move<0){
+            Log.i(TAG, "move: " + move + "/" + down);
+            sliding = false;
+            return;
+        }
+        if (move > refreshHeight) {
+            animing = true;
+            sliding = false;
+            anim();
+        } else {
+            requestLayout();
+            postInvalidate();
+        }
+    }
+
+    private void down(float y) {
+        down = y;
+        sliding = true;
+    }
+
+    private void upAnim() {
+        float init = move < refreshView.getHeight() ? move : refreshView.getHeight();
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(init, 0, init / 3 * 2, 0, init / 2, 0);
+        valueAnimator.setDuration(300);
+        valueAnimator.setInterpolator(new ConstantInterpolation());
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                move = (float) animation.getAnimatedValue();
                 requestLayout();
                 postInvalidate();
             }
-        }
-        return refreshing || sliding || animing || super.onTouchEvent(event);
-    }
+        });
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
 
-    private AnimatorSet animatorSet;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                down = 0;
+                move = 0;
+                sliding = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        valueAnimator.start();
+    }
 
     private void anim() {
         float h = refreshView.getHeight();
@@ -224,7 +294,7 @@ public class RefreshLayout extends ViewGroup {
         waveAnim.setInterpolator(new ConstantInterpolation());
         waveAnim.setDuration(500);
         //水滴头动画
-        ValueAnimator loadAnim = ValueAnimator.ofFloat(move, getHeight() / 2);
+        final ValueAnimator loadAnim = ValueAnimator.ofFloat(move, getHeight() / 2);
         loadAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -257,7 +327,7 @@ public class RefreshLayout extends ViewGroup {
         });
         wavingAnim.setDuration(700);
         wavingAnim.setInterpolator(new DecelerateInterpolator());
-        animatorSet = new AnimatorSet();
+        AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(loadAnim).with(waveAnim).with(waveTailAnim).before(wavingAnim);
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
@@ -268,9 +338,13 @@ public class RefreshLayout extends ViewGroup {
             @Override
             public void onAnimationEnd(Animator animation) {
                 Log.i(TAG, "onAnimationEnd: set ");
+                waveValue = 0;
                 animing = false;
                 refreshing = true;
                 postInvalidate();
+                if (listener != null) {
+                    listener.onRefresh();
+                }
             }
 
             @Override
@@ -284,6 +358,48 @@ public class RefreshLayout extends ViewGroup {
             }
         });
         animatorSet.start();
+    }
+
+    public void setOnRefreshListener(OnRefreshListener listener) {
+        this.listener = listener;
+    }
+
+    public void setRefresh(boolean refresh) {
+        if (sliding && animing) {
+            Log.i(TAG, "setRefresh: 1");
+            return;
+        }
+        if ((!refreshing && !refresh) || (refresh && refreshing)) {
+            Log.i(TAG, "setRefresh: 2");
+            return;
+        }
+        Log.i(TAG, "setRefresh: " + refresh);
+        if (refresh) {
+            ValueAnimator valueAnimator = ValueAnimator.ofFloat(refreshHeight + 1);
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    float curr = (float) animation.getAnimatedValue();
+                    move(curr);
+                }
+            });
+            valueAnimator.setDuration(300);
+            valueAnimator.setInterpolator(new ConstantInterpolation());
+            valueAnimator.start();
+        } else {
+            move = 0;
+            down = 0;
+            refreshing = false;
+            refreshView.setVisibility(INVISIBLE);
+            requestLayout();
+            postInvalidate();
+        }
+    }
+
+    public interface OnRefreshListener {
+
+        void onRefresh();
+
     }
 
 }
