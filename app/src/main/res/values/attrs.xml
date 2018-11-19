@@ -35,4 +35,9 @@
         <attr name="length" format="dimension"/>
         <attr name="message" format="string"/>
     </declare-styleable>
+    
+    <declare-styleable name="BottomView">
+        <attr name="icon" format="reference"/>
+        <attr name="name" format="string"/>
+    </declare-styleable>
 </resources>

@@ -14,4 +14,9 @@ public class SizeUtils {
         return (int) (scale * value);
     }
 
+    public static int sp2px(Context context, float value){
+        float scale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (scale * value);
+    }
+
 }

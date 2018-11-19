@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.project.viewtest.activity.BottomLayoutActivity;
 import com.project.viewtest.activity.FlowActivity;
 import com.project.viewtest.activity.LoadButtonActivity;
 import com.project.viewtest.activity.LyricsActivity;
@@ -72,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(RefreshActivity.class);
+            }
+        });
+        binding.mainBottomLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(BottomLayoutActivity.class);
             }
         });
     }

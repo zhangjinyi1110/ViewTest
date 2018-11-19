@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.project.viewtest.activity.BottomLayoutActivity">
+
+    <com.project.viewtest.widget.BottomLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_layout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.project.viewtest.widget.BottomView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:name="bottom1"
+            app:icon="@drawable/icon6"/>
+
+        <com.project.viewtest.widget.BottomView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:name="bottom2"
+            app:icon="@drawable/icon6"/>
+
+        <com.project.viewtest.widget.BottomView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:name="bottom3"
+            app:icon="@drawable/icon6"/>
+
+        <com.project.viewtest.widget.BottomView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:name="bottom4"
+            app:icon="@drawable/icon6"/>
+
+    </com.project.viewtest.widget.BottomLayout>
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/bottom_pager"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_layout"/>
+
+</android.support.constraint.ConstraintLayout>
