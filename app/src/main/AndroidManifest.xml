@@ -27,7 +27,8 @@
         <activity android:name=".test.WordActivity" />
         <activity android:name=".test.NewWordActivity" />
         <activity android:name=".activity.RefreshActivity" />
-        <activity android:name=".activity.BottomLayoutActivity"></activity>
+        <activity android:name=".activity.BottomLayoutActivity" />
+        <activity android:name=".activity.ScrollActivity"></activity>
     </application>
 
 </manifest>

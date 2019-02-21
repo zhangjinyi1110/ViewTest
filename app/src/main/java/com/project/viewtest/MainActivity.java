@@ -13,6 +13,7 @@ import com.project.viewtest.activity.LoadButtonActivity;
 import com.project.viewtest.activity.LyricsActivity;
 import com.project.viewtest.activity.RadialGradientActivity;
 import com.project.viewtest.activity.RefreshActivity;
+import com.project.viewtest.activity.ScrollActivity;
 import com.project.viewtest.activity.SpringActivity;
 import com.project.viewtest.activity.TestActivity;
 import com.project.viewtest.activity.WaterFallActivity;
@@ -79,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(BottomLayoutActivity.class);
+            }
+        });
+        binding.mainScrollLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(ScrollActivity.class);
             }
         });
     }
