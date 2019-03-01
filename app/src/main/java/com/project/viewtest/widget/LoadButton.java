@@ -186,7 +186,6 @@ public class LoadButton extends View {
         float b = x + currLen / 2;
         buttonPath.lineTo(b, getHeight());
         buttonPath.arcTo(new RectF(b - radius, 0, b + radius, getHeight()), 90, -180);
-//        path.lineTo(x, 0);
         buttonPath.close();
         canvas.drawPath(buttonPath, paint);
     }
