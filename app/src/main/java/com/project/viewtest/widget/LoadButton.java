@@ -216,22 +216,6 @@ public class LoadButton extends View {
         buttonAnim.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        post(new Runnable() {
-                            @Override
-                            public void run() {
-                                loadAnim.cancel();
-                            }
-                        });
-                    }
-                }).start();
             }
 
             @Override
@@ -285,12 +269,10 @@ public class LoadButton extends View {
         loadAnim.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-
             }
 
             @Override
@@ -300,7 +282,6 @@ public class LoadButton extends View {
 
             @Override
             public void onAnimationRepeat(Animator animation) {
-
             }
         });
     }
@@ -317,6 +298,7 @@ public class LoadButton extends View {
     public void reset() {
         action = ACTION_DEF;
         currLen = length;
+        currAngle = 0;
         loadBPaint.setColor(Color.GRAY);
         loadTPaint.setColor(Color.WHITE);
         if (loadAnim.isRunning()) {
