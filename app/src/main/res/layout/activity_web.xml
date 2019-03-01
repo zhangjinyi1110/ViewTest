@@ -6,17 +6,15 @@
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.ScrollActivity"
-        android:orientation="vertical"
-        android:background="#a0a0a0">
+        tools:context=".activity.WebActivity">
 
-        <android.support.v7.widget.RecyclerView
+        <WebView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/scroll_recycler"/>
+            android:id="@+id/web" />
 
-    </LinearLayout>
+    </FrameLayout>
 </layout>

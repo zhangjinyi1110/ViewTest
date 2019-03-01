@@ -10,6 +10,7 @@ import android.view.View;
 import com.project.viewtest.activity.BottomLayoutActivity;
 import com.project.viewtest.activity.FlowActivity;
 import com.project.viewtest.activity.LoadButtonActivity;
+import com.project.viewtest.activity.LoadViewActivity;
 import com.project.viewtest.activity.LyricsActivity;
 import com.project.viewtest.activity.RadialGradientActivity;
 import com.project.viewtest.activity.RefreshActivity;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.mainFlowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,9 +89,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(ScrollActivity.class);
             }
         });
+        binding.mainLoadView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(LoadViewActivity.class);
+            }
+        });
     }
 
-    private void startActivity(Class aClass){
+    private void startActivity(Class aClass) {
         startActivity(new Intent(this, aClass));
     }
 

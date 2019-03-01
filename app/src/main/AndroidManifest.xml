@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.viewtest">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -28,7 +30,9 @@
         <activity android:name=".test.NewWordActivity" />
         <activity android:name=".activity.RefreshActivity" />
         <activity android:name=".activity.BottomLayoutActivity" />
-        <activity android:name=".activity.ScrollActivity"></activity>
+        <activity android:name=".activity.ScrollActivity" />
+        <activity android:name=".activity.WebActivity" />
+        <activity android:name=".activity.LoadViewActivity"></activity>
     </application>
 
 </manifest>

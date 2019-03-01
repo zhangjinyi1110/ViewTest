@@ -79,21 +79,40 @@ public class ScrollMoreView extends FrameLayout {
         addView(content);
         addView(btnLayout);
         setClickable(true);
+        Log.e(TAG, "init: " + getChildCount());
     }
 
     @SuppressLint("DrawAllocation")
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        Log.e(TAG, "onMeasure: " + getChildCount());
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY
                 ? MeasureSpec.getSize(heightMeasureSpec) : SizeUtils.dp2px(context, 70);
         btnLayout.setLayoutParams(new LinearLayout.LayoutParams(getBtnWidth(), height));
+        for (int i = 2; i < getChildCount(); i++) {
+            if (i == 2) {
+                View view = getChildAt(i);
+                removeView(view);
+                LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
+                if (layoutParams.width == LayoutParams.MATCH_PARENT) {
+                    layoutParams.width = width;
+                }
+                if (layoutParams.height == LayoutParams.MATCH_PARENT) {
+                    layoutParams.height = height;
+                }
+                content.addView(view, layoutParams);
+            } else {
+                removeView(getChildAt(i));
+            }
+        }
         measureChildren(widthMeasureSpec, heightMeasureSpec);
         setMeasuredDimension(width, height);
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        Log.e(TAG, "onLayout: " + getChildCount());
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
         for (int i = 0; i < getChildCount(); i++) {

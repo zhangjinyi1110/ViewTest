@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- 对话框样式 -->
+    <style name="dialog" parent="android:style/Theme.Dialog">
+        <!-- <item name="android:windowBackground">@null</item> -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- 屏幕背景变暗 -->
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
 </resources>

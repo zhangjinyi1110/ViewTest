@@ -70,6 +70,10 @@ public abstract class SimpleAdapter<T, B extends ViewDataBinding> extends Recycl
     }
 
     public void addList(List<T> list){
+        if (this.list == null) {
+            setList(list);
+            return;
+        }
         this.list.addAll(list);
         notifyItemRangeInserted(this.list.size() - list.size() - 1, list.size());
     }
