@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.HeaderLayoutActivity">
+
+        <com.project.viewtest.widget.LLL
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="@string/app_name"-->
+                <!--android:textSize="25sp"-->
+                <!--android:gravity="center"/>-->
+
+            <com.project.viewtest.widget.LLLRRR
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recycler"/>
+
+        </com.project.viewtest.widget.LLL>
+
+    </FrameLayout>
+</layout>

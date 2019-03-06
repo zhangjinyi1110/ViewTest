@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.project.viewtest.activity.BottomLayoutActivity;
 import com.project.viewtest.activity.FlowActivity;
+import com.project.viewtest.activity.HeaderLayoutActivity;
 import com.project.viewtest.activity.LoadButtonActivity;
 import com.project.viewtest.activity.LoadViewActivity;
 import com.project.viewtest.activity.LyricsActivity;
@@ -19,6 +20,7 @@ import com.project.viewtest.activity.SpringActivity;
 import com.project.viewtest.activity.TestActivity;
 import com.project.viewtest.activity.WaterFallActivity;
 import com.project.viewtest.databinding.ActivityMainBinding;
+import com.project.viewtest.widget.HeaderLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(LoadViewActivity.class);
+            }
+        });
+        binding.mainHeaderLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(HeaderLayoutActivity.class);
             }
         });
     }

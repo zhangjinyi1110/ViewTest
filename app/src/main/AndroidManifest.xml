@@ -32,7 +32,8 @@
         <activity android:name=".activity.BottomLayoutActivity" />
         <activity android:name=".activity.ScrollActivity" />
         <activity android:name=".activity.WebActivity" />
-        <activity android:name=".activity.LoadViewActivity"></activity>
+        <activity android:name=".activity.LoadViewActivity" />
+        <activity android:name=".activity.HeaderLayoutActivity"></activity>
     </application>
 
 </manifest>
