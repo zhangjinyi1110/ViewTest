@@ -19,6 +19,7 @@ public class HeaderLayout extends LinearLayout {
 
     private int scroll = 0;//滑动距离
     private int start = 0;//开始点
+    private int topScroll = 0;//向上拉的最高点
 
     private boolean showHeader = false;//是否打开了头部
 
@@ -134,7 +135,7 @@ public class HeaderLayout extends LinearLayout {
                     } else {//否则回到原点
                         startAnim(scroll, getScrollHeight());
                     }
-                } else if (scroll > getScrollHeight() && !showHeader) {//没打开且上下拉
+                } else if (scroll > getScrollHeight() && !showHeader) {//没打开且向下拉
                     if (Math.abs(scroll) >= isScroll()) {//超过指定距离，自己滑动到底部
                         showHeader = true;//设为打开
                         startAnim(scroll, getScrollHeight());
@@ -151,6 +152,15 @@ public class HeaderLayout extends LinearLayout {
                         requestLayout();
                     }
                 } else {
+                    //防止向下拉后往上拉再往下拉时要拖动scroll这段距离才能滑动
+                    if (scroll < 0) {
+                        if (topScroll < scroll) {
+                            topScroll = scroll;
+                        } else {
+                            start = (int) ev.getY();
+                        }
+                        return false;
+                    }
                     //没打开且向上滑动时将滑动距离致为没打开的距离
                     if (scroll < getScrollHeight())
                         scroll = getScrollHeight();
