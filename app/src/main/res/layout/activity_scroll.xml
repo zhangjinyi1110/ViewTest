@@ -13,10 +13,15 @@
         android:orientation="vertical"
         android:background="#a0a0a0">
 
-        <android.support.v7.widget.RecyclerView
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/scroll_recycler"/>-->
+
+        <com.project.viewtest.widget.ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scroll_recycler"/>
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"/>
 
     </LinearLayout>
 </layout>
