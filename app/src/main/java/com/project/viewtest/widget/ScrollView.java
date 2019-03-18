@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,9 +29,6 @@ public class ScrollView extends FrameLayout {
 
     private int start = 0;//开始点击的x坐标
     private int scroll = 0;//滑动的距离
-    private int tb = 0;//开始点击时的y坐标
-    private long startTime = 0;
-    private long endTime = 0;
     private boolean isBtnClose = false;//是否允许在button容器里滑动关闭
     private boolean isOpenBtn = false;//是否打开button容器
     private OnClickListener listener;
@@ -104,7 +100,6 @@ public class ScrollView extends FrameLayout {
         more.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e(TAG, "onClick: more");
                 if (itemClickListener != null)
                     itemClickListener.onItemClick(view, TYPE_MORE);
             }
@@ -112,8 +107,6 @@ public class ScrollView extends FrameLayout {
         ok.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                isBtnClose = true;
-                Log.e(TAG, "onClick: ok");
                 if (itemClickListener != null)
                     itemClickListener.onItemClick(view, TYPE_OK);
             }
@@ -121,24 +114,18 @@ public class ScrollView extends FrameLayout {
         cancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                isBtnClose = false;
-                Log.e(TAG, "onClick: cancel");
                 if (itemClickListener != null)
                     itemClickListener.onItemClick(view, TYPE_CANCEL);
             }
         });
-//        ok.setOnTouchListener(touchListener);
-//        cancel.setOnTouchListener(touchListener);
-//        more.setOnTouchListener(touchListener);
+        content.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null && content.getChildAt(0) != null)
+                    listener.onClick(content.getChildAt(0));
+            }
+        });
     }
-
-//    private OnTouchListener touchListener = new OnTouchListener() {
-//        @SuppressLint("ClickableViewAccessibility")
-//        @Override
-//        public boolean onTouch(View v, MotionEvent event) {
-//            return false;
-//        }
-//    };
 
     @SuppressLint("DrawAllocation")
     @Override
@@ -183,54 +170,54 @@ public class ScrollView extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.e(TAG, "onInterceptTouchEvent: " + ev.getAction());
-        if (isOpenBtn) {
-            switch (ev.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    start = (int) ev.getX();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    scroll = (int) (ev.getX() - start + getScroll());
-                    break;
-            }
-            if (isBtnClose && scroll >= getScroll() + SizeUtils.dp2px(context, 5)) {
-                return true;
-            }
-            boolean flag = super.onInterceptTouchEvent(ev);
-            Log.e(TAG, "onInterceptTouchEvent: " + flag);
-            if (isBtnClose && !flag) {
-                onTouchEvent(ev);
-            }
-            return flag;
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                start = (int) ev.getX();
+                scroll = start;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                scroll = (int) (ev.getX() - start + getScroll());
+                break;
+            case MotionEvent.ACTION_UP:
+                start = 0;
+                scroll = getScroll();
+                break;
         }
-        return true;
-//        return isOpenBtn;
+        //判断是否打开BtnLayout
+        if (isOpenBtn) {
+            //滑动距离超过5dp判定用户意向为滑动
+            if (scroll != start && scroll >= getScroll() + SizeUtils.dp2px(context, 5)) {
+                //起点在contentView部分是直接滑动，在BtnLayout部分要判断是否可以滑动关闭
+                if (start <= getMeasuredWidth() - getBtnWidth()) {
+                    return true;
+                } else if (isBtnClose) {
+                    return true;
+                }
+            }
+        } else if (scroll != start && scroll <= getScroll() - SizeUtils.dp2px(context, 5)) {
+            return true;
+        }
+        return super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.e(TAG, "dispatchTouchEvent: " + ev.getAction());
-        boolean flag = super.dispatchTouchEvent(ev);
-        Log.e(TAG, "dispatchTouchEvent: " + flag);
-        if (isOpenBtn && !flag) {
-
+        if (animator != null && animator.isRunning()) {
+            return false;
         }
-        return flag;
+        return super.dispatchTouchEvent(ev);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        Log.e(TAG, "onTouchEvent: " + ev.getAction());
-        if (animator != null && animator.isRunning()) {
-            return false;
-        }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 start = (int) ev.getX();
                 getParent().requestDisallowInterceptTouchEvent(true);
                 return true;
             case MotionEvent.ACTION_MOVE:
+                //超过一定距离，判断用户想要上下滑动
                 if (isTB(ev.getRawY())) {
                     getParent().requestDisallowInterceptTouchEvent(false);
                     return false;
@@ -457,9 +444,6 @@ public class ScrollView extends FrameLayout {
     }
 
     public void setContentListener(OnClickListener listener) {
-        if (listener != null && content != null) {
-            this.listener = listener;
-            content.setOnClickListener(listener);
-        }
+        this.listener = listener;
     }
 }
