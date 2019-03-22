@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.project.viewtest.activity.BottomLayoutActivity;
+import com.project.viewtest.activity.CalendarActivity;
 import com.project.viewtest.activity.FlowActivity;
 import com.project.viewtest.activity.HeaderLayoutActivity;
 import com.project.viewtest.activity.LoadButtonActivity;
@@ -101,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(HeaderLayoutActivity.class);
+            }
+        });
+        binding.mainCalendarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(CalendarActivity.class);
             }
         });
     }

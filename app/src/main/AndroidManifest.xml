@@ -33,7 +33,8 @@
         <activity android:name=".activity.ScrollActivity" />
         <activity android:name=".activity.WebActivity" />
         <activity android:name=".activity.LoadViewActivity" />
-        <activity android:name=".activity.HeaderLayoutActivity"></activity>
+        <activity android:name=".activity.HeaderLayoutActivity" />
+        <activity android:name=".activity.CalendarActivity"></activity>
     </application>
 
 </manifest>

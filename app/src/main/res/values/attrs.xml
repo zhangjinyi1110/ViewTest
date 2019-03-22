@@ -40,4 +40,23 @@
         <attr name="icon" format="reference"/>
         <attr name="name" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="CalendarItemView">
+        <attr name="month">
+            <enum name="a" value="0"/>
+            <enum name="b" value="1"/>
+            <enum name="c" value="2"/>
+            <enum name="d" value="3"/>
+            <enum name="e" value="4"/>
+            <enum name="f" value="5"/>
+            <enum name="g" value="6"/>
+            <enum name="h" value="7"/>
+            <enum name="i" value="8"/>
+            <enum name="j" value="9"/>
+            <enum name="k" value="10"/>
+            <enum name="l" value="11"/>
+        </attr>
+        <attr name="year" format="integer"/>
+        <attr name="day" format="integer"/>
+    </declare-styleable>
 </resources>
