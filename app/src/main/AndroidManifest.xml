@@ -34,7 +34,8 @@
         <activity android:name=".activity.WebActivity" />
         <activity android:name=".activity.LoadViewActivity" />
         <activity android:name=".activity.HeaderLayoutActivity" />
-        <activity android:name=".activity.CalendarActivity"></activity>
+        <activity android:name=".activity.CalendarActivity" />
+        <activity android:name=".activity.StatusBarActivity"></activity>
     </application>
 
 </manifest>

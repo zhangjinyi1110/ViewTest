@@ -18,6 +18,7 @@ import com.project.viewtest.activity.RadialGradientActivity;
 import com.project.viewtest.activity.RefreshActivity;
 import com.project.viewtest.activity.ScrollActivity;
 import com.project.viewtest.activity.SpringActivity;
+import com.project.viewtest.activity.StatusBarActivity;
 import com.project.viewtest.activity.TestActivity;
 import com.project.viewtest.activity.WaterFallActivity;
 import com.project.viewtest.databinding.ActivityMainBinding;
@@ -108,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(CalendarActivity.class);
+            }
+        });
+        binding.mainStatusBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(StatusBarActivity.class);
             }
         });
     }
