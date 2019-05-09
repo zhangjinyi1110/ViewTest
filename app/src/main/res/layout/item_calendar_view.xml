@@ -1,130 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="5dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.project.viewtest.widget.CalendarItemView
+    <data>
+
+    </data>
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp">
 
-    <!--<android.support.constraint.ConstraintLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="8dp">-->
+        <com.project.viewtest.widget.CalendarItemView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:id="@+id/item" />
 
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="2019年"-->
-            <!--android:id="@+id/year"-->
-            <!--android:textSize="20sp"-->
-            <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintRight_toLeftOf="@+id/month"-->
-            <!--android:gravity="center"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:layout_constraintLeft_toRightOf="@id/year"-->
-            <!--android:text="3月"-->
-            <!--android:textSize="16sp"-->
-            <!--android:id="@+id/month"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/year"-->
-            <!--app:layout_constraintRight_toRightOf="parent"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/year"-->
-            <!--app:layout_constraintRight_toLeftOf="@+id/monday"-->
-            <!--android:text="日"-->
-            <!--android:textSize="14sp"-->
-            <!--android:gravity="center"-->
-            <!--android:id="@+id/sunday"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:layout_constraintLeft_toRightOf="@id/sunday"-->
-            <!--app:layout_constraintTop_toTopOf="@id/sunday"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/sunday"-->
-            <!--app:layout_constraintRight_toLeftOf="@+id/tuesday"-->
-            <!--android:text="一"-->
-            <!--android:textSize="14sp"-->
-            <!--android:gravity="center"-->
-            <!--android:id="@+id/monday"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:layout_constraintLeft_toRightOf="@id/monday"-->
-            <!--app:layout_constraintTop_toTopOf="@id/sunday"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/sunday"-->
-            <!--app:layout_constraintRight_toLeftOf="@+id/wednesday"-->
-            <!--android:text="二"-->
-            <!--android:textSize="14sp"-->
-            <!--android:gravity="center"-->
-            <!--android:id="@+id/tuesday"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:layout_constraintLeft_toRightOf="@id/tuesday"-->
-            <!--app:layout_constraintTop_toTopOf="@id/sunday"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/sunday"-->
-            <!--app:layout_constraintRight_toLeftOf="@+id/thursday"-->
-            <!--android:text="三"-->
-            <!--android:textSize="14sp"-->
-            <!--android:gravity="center"-->
-            <!--android:id="@+id/wednesday"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:layout_constraintLeft_toRightOf="@id/wednesday"-->
-            <!--app:layout_constraintTop_toTopOf="@id/sunday"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/sunday"-->
-            <!--app:layout_constraintRight_toLeftOf="@+id/friday"-->
-            <!--android:text="四"-->
-            <!--android:textSize="14sp"-->
-            <!--android:gravity="center"-->
-            <!--android:id="@+id/thursday"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:layout_constraintLeft_toRightOf="@id/thursday"-->
-            <!--app:layout_constraintTop_toTopOf="@id/sunday"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/sunday"-->
-            <!--app:layout_constraintRight_toLeftOf="@+id/saturday"-->
-            <!--android:text="五"-->
-            <!--android:textSize="14sp"-->
-            <!--android:gravity="center"-->
-            <!--android:id="@+id/friday"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:layout_constraintLeft_toRightOf="@id/friday"-->
-            <!--app:layout_constraintTop_toTopOf="@id/sunday"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/sunday"-->
-            <!--app:layout_constraintRight_toRightOf="parent"-->
-            <!--android:text="六"-->
-            <!--android:textSize="14sp"-->
-            <!--android:gravity="center"-->
-            <!--android:id="@+id/saturday"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="1"-->
-            <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/sunday"-->
-            <!--android:id="@+id/day1"/>-->
-
-    <!--</android.support.constraint.ConstraintLayout>-->
-
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</layout>

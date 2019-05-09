@@ -12,25 +12,10 @@
         android:layout_height="match_parent"
         tools:context=".activity.CalendarActivity">
 
-        <com.project.viewtest.widget.CalendarItemView
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/calendar"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="add"
-            android:id="@+id/add"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:text="remove"
-            android:id="@+id/remove"/>
+            android:id="@+id/calendar_recycler"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

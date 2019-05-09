@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -33,6 +32,9 @@ public class CalendarItemView extends View {
     private int currData = -1;
     private int clickData = -1;
     private int firstDayForWeek;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
 
     public CalendarItemView(Context context) {
         super(context);
@@ -52,29 +54,17 @@ public class CalendarItemView extends View {
     private void init(AttributeSet attrs, int defStyleAttr) {
         Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getDefault());
-        int mYear = c.get(Calendar.YEAR); // 获取当前年份
-        int mMonth = c.get(Calendar.MONTH);// 获取当前月份
-        int mDay = c.get(Calendar.DAY_OF_MONTH);// 获取当前月份的日期号码
+        mYear = c.get(Calendar.YEAR); // 获取当前年份
+        mMonth = c.get(Calendar.MONTH);// 获取当前月份
+        mDay = c.get(Calendar.DAY_OF_MONTH);// 获取当前月份的日期号码
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.CalendarItemView, defStyleAttr, 0);
         year = array.getInt(R.styleable.CalendarItemView_year, mYear);
         month = array.getInt(R.styleable.CalendarItemView_month, mMonth) + 1;
         day = array.getInt(R.styleable.CalendarItemView_day, mDay);
         array.recycle();
-        if (month <= 7) {
-            if (month == 2) {
-                dayCount = 28 + ((year % 4 == 0) ? 1 : 0);
-            } else {
-                dayCount = (month % 2 == 0) ? 30 : 31;
-            }
-        } else {
-            dayCount = (month % 2 == 0) ? 31 : 30;
-        }
-        c.set(year, month - 1, day);
-        Log.e("aaa", "init: " + year + "/" + month + "/" + day);
-        weekDay = c.get(Calendar.DAY_OF_WEEK);
-        firstDayForWeek = weekDay - day % 7 + 1;
+        initDay();
         paint = new Paint();
-        paint.setColor(Color.RED);
+        paint.setColor(Color.BLACK);
         paint.setTextSize(getContext().getResources().getDisplayMetrics().scaledDensity * 15);
         padding = (int) (getContext().getResources().getDisplayMetrics().density * 30);
         margin = (int) (getContext().getResources().getDisplayMetrics().density * 1);
@@ -86,28 +76,38 @@ public class CalendarItemView extends View {
                     boolean start = rect.contains(startX, startY);
                     boolean end = rect.contains(endX, endY);
                     if (start && end) {
-                        Log.e("aaa", "onClick: ok");
-//                        Path path = new Path();
-//                        path.moveTo(rect.left, rect.top);
-//                        path.lineTo(rect.right, rect.top);
-//                        path.lineTo(rect.right, rect.bottom);
-//                        path.lineTo(rect.left, rect.bottom);
-//                        path.close();
                         clickData = i;
                         invalidate();
                         break;
                     }
-                    Log.e("aaa", "onClick: " + i);
                     i++;
                 }
             }
         });
-        setBackgroundColor(Color.CYAN);
+        if (clickData == -1) {
+            clickData = day - 1;
+        }
+        setBackgroundColor(Color.WHITE);
+    }
+
+    private void initDay() {
+        Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getDefault());
+        if (month <= 7) {
+            if (month == 2) {
+                dayCount = 28 + ((year % 4 == 0) ? 1 : 0);
+            } else {
+                dayCount = (month % 2 == 0) ? 30 : 31;
+            }
+        } else {
+            dayCount = (month % 2 == 0) ? 31 : 30;
+        }
+        c.set(year, month - 1, day);
+        weekDay = c.get(Calendar.DAY_OF_WEEK);
+        firstDayForWeek = weekDay - day % 7 + 1;
     }
 
     Rect[] dayRect;
-
-    private int color[] = new int[]{Color.YELLOW, Color.BLACK, Color.BLUE, Color.GRAY, Color.GREEN, Color.WHITE, Color.CYAN};
 
     @SuppressLint("DrawAllocation")
     @Override
@@ -136,14 +136,13 @@ public class CalendarItemView extends View {
             }
             y = h + (half - fontMetricsInt.descent);
             dayRect[Integer.valueOf(dayNum) - 1] = new Rect(x - itemW / 2 + rect.width() / 2, h - padding / 2, x + itemW / 2 + rect.width() / 2, h + padding / 2);
-            Log.e("aaa", "onDraw: " + x + "/" + y + "/" + weekDay + "/" + i + "/" + dayNum);
-//            if (Integer.valueOf(dayNum) - 1 == clickData) {
-                paint.setColor(color[i % 6]);
-                canvas.drawRect(dayRect[Integer.valueOf(dayNum) - 1], paint);
-//            }
-            paint.setColor(Color.RED);
-            if (day == Integer.valueOf(dayNum)) {
-                paint.setColor(Color.BLACK);
+            if (Integer.valueOf(dayNum) - 1 == clickData) {
+                paint.setColor(Color.GRAY);
+                canvas.drawCircle(x + rect.width() / 2, h, padding / 6 * 2, paint);
+            }
+            paint.setColor(Color.BLACK);
+            if (day == Integer.valueOf(dayNum) && month == mMonth + 1 && year == mYear) {
+                paint.setColor(Color.RED);
             }
             canvas.drawText(dayNum, x, y, paint);
         }
@@ -156,8 +155,15 @@ public class CalendarItemView extends View {
         int w = MeasureSpec.getSize(widthMeasureSpec);
         int h = MeasureSpec.getSize(heightMeasureSpec);
         int width = w;
-        int height = padding * 7;
+        int height = 0;
         itemW = width / 7;
+        padding = itemW;
+        int weekDay = firstDayForWeek;
+        for (int i = weekDay; i < dayCount + weekDay; i++) {
+            if (i % 7 == 1 || weekDay == i) {
+                height += padding;
+            }
+        }
         setMeasuredDimension(wMode == MeasureSpec.EXACTLY ? w : width, hMode == MeasureSpec.EXACTLY ? h : height);
     }
 
@@ -171,17 +177,48 @@ public class CalendarItemView extends View {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             startX = (int) event.getX();
             startY = (int) event.getY();
-            Log.e("aaa", "dispatchTouchEvent: down - " + startX + "/" + startY);
         } else if (MotionEvent.ACTION_UP == event.getAction()) {
             endX = (int) event.getX();
             endY = (int) event.getY();
-            Log.e("aaa", "dispatchTouchEvent: up - " + endX + "/" + endY);
         }
         return super.dispatchTouchEvent(event);
     }
 
     public void setMonth(int month) {
         this.month = month;
+        initDay();
+        requestLayout();
         invalidate();
+    }
+
+    public void nextMonth() {
+        if (month == 12) {
+            month = 1;
+            year++;
+        } else {
+            month ++;
+        }
+        setMonth(month);
+    }
+
+    public void lastMonth() {
+        if (month == 1) {
+            month = 12;
+            year--;
+        } else {
+            month--;
+        }
+        setMonth(month);
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+        initDay();
+        requestLayout();
+        invalidate();
+    }
+
+    public void setClickData(int clickData) {
+        this.clickData = clickData;
     }
 }
