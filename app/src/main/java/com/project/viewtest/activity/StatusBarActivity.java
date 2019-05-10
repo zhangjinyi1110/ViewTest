@@ -15,6 +15,6 @@ public class StatusBarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityStatusBarBinding barBinding = DataBindingUtil.setContentView(this, R.layout.activity_status_bar);
-        StatusBar.with(StatusBarActivity.this);
+        StatusBar.with(StatusBarActivity.this).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
     }
 }
