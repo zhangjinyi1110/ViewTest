@@ -1,17 +1,24 @@
 package com.project.viewtest.statusbar;
 
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 
 public interface Bar {
 
-    Bar setBackgroundColor(int color);
+    Bar setStatusBackgroundColor(@ColorInt int color);
 
-    Bar setBackgroundDrawable(Drawable drawable);
+    Bar setStatusBackgroundDrawable(Drawable drawable);
 
     Bar hideActionBar();
 
     Bar hideStatusBar();
 
     Bar hideHalfStatusBar();
+
+    Bar lightColor();
+
+    Bar darkColor();
+
+    void build();
 
 }
