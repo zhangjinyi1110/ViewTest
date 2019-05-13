@@ -20,6 +20,7 @@ import com.project.viewtest.activity.ScrollActivity;
 import com.project.viewtest.activity.SpringActivity;
 import com.project.viewtest.activity.StatusBarActivity;
 import com.project.viewtest.activity.TestActivity;
+import com.project.viewtest.activity.TextSpanActivity;
 import com.project.viewtest.activity.WaterFallActivity;
 import com.project.viewtest.databinding.ActivityMainBinding;
 import com.project.viewtest.widget.HeaderLayout;
@@ -115,6 +116,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(StatusBarActivity.class);
+            }
+        });
+        binding.mainTextSpan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(TextSpanActivity.class);
             }
         });
     }
