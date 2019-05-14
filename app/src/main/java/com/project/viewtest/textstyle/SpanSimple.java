@@ -148,9 +148,6 @@ public class SpanSimple extends BaseSpan {
     }
 
     private void setSpan(Object span, int start, int end) {
-//        SpannableString spannableString = new SpannableString(content);
-//        spannableString.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        return spannableString;
         builder.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
