@@ -150,5 +150,14 @@
             android:textColor="#000000"
             android:id="@+id/main_text_span"/>
 
+        <com.project.viewtest.widget.RadialGradientView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Photo"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textColor="#000000"
+            android:id="@+id/main_photo"/>
+
     </com.project.viewtest.widget.FlowLayout>
 </layout>

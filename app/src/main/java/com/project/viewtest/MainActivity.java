@@ -14,6 +14,7 @@ import com.project.viewtest.activity.HeaderLayoutActivity;
 import com.project.viewtest.activity.LoadButtonActivity;
 import com.project.viewtest.activity.LoadViewActivity;
 import com.project.viewtest.activity.LyricsActivity;
+import com.project.viewtest.activity.PhotoActivity;
 import com.project.viewtest.activity.RadialGradientActivity;
 import com.project.viewtest.activity.RefreshActivity;
 import com.project.viewtest.activity.ScrollActivity;
@@ -122,6 +123,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(TextSpanActivity.class);
+            }
+        });
+        binding.mainPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(PhotoActivity.class);
             }
         });
     }

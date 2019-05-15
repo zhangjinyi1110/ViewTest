@@ -1,7 +1,6 @@
 package com.project.viewtest.textstyle;
 
 import android.support.annotation.ColorInt;
-import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
