@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,25 +16,28 @@ import java.util.List;
 
 public class SelectPhoto {
 
+
+
+    public static List<Photo> startSelect(Context context) {
+        return null;
+    }
+
     public static void get(Context context) {
         if (!check(context)) {
             return;
         }
         Cursor cursor = context.getContentResolver()
-                .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
+                .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Images.Media.DEFAULT_SORT_ORDER);
 //        List<>
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 //获取图片的名称
                 String name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
                 //获取图片的生成日期
-                byte[] data = cursor.getBlob(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                String data = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
                 //获取图片的详细信息
-                String desc = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DESCRIPTION));
-//                names.add(name);
-//                descs.add(desc);
-//                fileNames.add(new String(data, 0, data.length - 1));
-                Log.e("photo", "get: " + name + "/" + desc + "/" + new String(data));
+//                String desc = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DESCRIPTION));
+                Log.e("photo", "get: " + name + "/" /*+ desc + "/"*/ + data);
             }
             cursor.close();
         }
