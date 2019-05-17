@@ -4,11 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.project.viewtest.utils.TimeUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PhotoQuery extends MediaQuery<Photo> {
 
@@ -22,8 +22,8 @@ public class PhotoQuery extends MediaQuery<Photo> {
     }
 
     @Override
-    List<Photo> query(int start, int count, boolean all) {
-        List<Photo> photos = new ArrayList<>();
+    ArrayList<Photo> query(int start, int count, boolean all) {
+        ArrayList<Photo> photos = new ArrayList<>();
         Cursor cursor = getCursor();
         if (cursor == null) {
             return photos;
@@ -33,14 +33,17 @@ public class PhotoQuery extends MediaQuery<Photo> {
         if (!flag) {
             return photos;
         }
-        while (photos.size() < count && cursor.moveToNext()) {
+        while ((all || photos.size() < count) && cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
+            String data = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
             long time = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
             String date = TimeUtils.long2string(time, "yyyy-MM-dd");
             Photo photo = new Photo();
             photo.setDate(date);
             photo.setName(name);
+            photo.setPath(data);
             photos.add(photo);
+            Log.e("aaa", "query: " + name + "/" + data + "/" + date);
         }
         cursor.close();
         return photos;

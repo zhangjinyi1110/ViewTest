@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public abstract class MediaQuery<T extends Media> {
 
@@ -16,13 +16,13 @@ public abstract class MediaQuery<T extends Media> {
 
     abstract Uri getUri();
 
-    abstract List<T> query(int start, int count, boolean all);
+    abstract ArrayList<T> query(int start, int count, boolean all);
 
-    public List<T> query(int page, int count) {
+    public ArrayList<T> query(int page, int count) {
         return query(page * count - count, count, false);
     }
 
-    public List<T> queryAll() {
+    public ArrayList<T> queryAll() {
         return query(0, 0, true);
     }
 

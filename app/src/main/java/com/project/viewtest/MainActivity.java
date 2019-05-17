@@ -24,7 +24,7 @@ import com.project.viewtest.activity.TestActivity;
 import com.project.viewtest.activity.TextSpanActivity;
 import com.project.viewtest.activity.WaterFallActivity;
 import com.project.viewtest.databinding.ActivityMainBinding;
-import com.project.viewtest.widget.HeaderLayout;
+import com.project.viewtest.photo.SelectMediaActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         binding.mainPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(PhotoActivity.class);
+                startActivity(SelectMediaActivity.class);
             }
         });
     }

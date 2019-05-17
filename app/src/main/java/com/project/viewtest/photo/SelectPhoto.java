@@ -33,11 +33,13 @@ public class SelectPhoto {
             while (cursor.moveToNext()) {
                 //获取图片的名称
                 String name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
+                //获取图片的名称
+                String data = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
                 //获取图片的生成日期
-                String data = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
+                String date = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
                 //获取图片的详细信息
 //                String desc = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DESCRIPTION));
-                Log.e("photo", "get: " + name + "/" /*+ desc + "/"*/ + data);
+                Log.e("photo", "get: " + name + "/" /*+ desc + "/"*/ + date + "/" + data);
             }
             cursor.close();
         }

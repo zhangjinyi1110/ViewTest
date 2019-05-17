@@ -41,7 +41,8 @@
         <activity android:name=".activity.StatusBarActivity" />
         <activity android:name=".activity.TextSpanActivity" />
         <activity android:name=".activity.PhotoActivity" />
-        <activity android:name=".photo.SelectMediaActivity"></activity>
+        <activity android:name=".photo.SelectMediaActivity" />
+        <activity android:name=".photo.MediaShowActivity"></activity>
     </application>
 
 </manifest>
