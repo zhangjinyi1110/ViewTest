@@ -3,6 +3,7 @@ package com.project.viewtest.photo;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ public abstract class MediaQuery<T extends Media> {
     }
 
     Cursor getCursor() {
-        return context.getContentResolver().query(getUri(), null, null, null, null);
+        return context.getContentResolver().query(getUri(), null, null, null, MediaStore.Images.Media.DEFAULT_SORT_ORDER);
     }
 
 }

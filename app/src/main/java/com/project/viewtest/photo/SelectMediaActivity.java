@@ -22,7 +22,7 @@ public class SelectMediaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivitySelectMediaBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_select_media);
-        final ArrayList<Photo> list = MediaHelper.queryPhoto(this).query(1, 50);
+        final ArrayList<Photo> list = MediaHelper.queryPhoto(this).queryAll();
         SimpleAdapter<Photo, ItemSelectMediaBinding> adapter = new SimpleAdapter<Photo, ItemSelectMediaBinding>(getApplicationContext()) {
             @Override
             protected int getLayoutId() {
@@ -30,14 +30,16 @@ public class SelectMediaActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void convert(ItemSelectMediaBinding binding, Photo s, int position) {
+            protected void convert(ItemSelectMediaBinding binding, Photo s, final int position) {
                 Glide.with(getApplicationContext())
                         .load(s.getPath())
                         .into(binding.image);
                 binding.image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getApplicationContext(), MediaShowActivity.class).putParcelableArrayListExtra("photo", list));
+                        startActivity(new Intent(getApplicationContext(), MediaShowActivity.class)
+                                .putParcelableArrayListExtra("photo", list)
+                                .putExtra("curr", position));
                     }
                 });
             }
