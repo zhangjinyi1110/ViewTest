@@ -1,9 +1,10 @@
 package com.project.viewtest.photo;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
@@ -14,7 +15,6 @@ import com.project.viewtest.databinding.ActivitySelectMediaBinding;
 import com.project.viewtest.databinding.ItemSelectMediaBinding;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SelectMediaActivity extends AppCompatActivity {
 
@@ -30,16 +30,21 @@ public class SelectMediaActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void convert(ItemSelectMediaBinding binding, Photo s, final int position) {
+            protected void convert(final ItemSelectMediaBinding binding, final Photo s, final int position) {
                 Glide.with(getApplicationContext())
                         .load(s.getPath())
                         .into(binding.image);
+                ViewCompat.setTransitionName(binding.image, s.getPath());
                 binding.image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getApplicationContext(), MediaShowActivity.class)
-                                .putParcelableArrayListExtra("photo", list)
-                                .putExtra("curr", position));
+//                        startActivity(new Intent(getApplicationContext(), MediaShowActivity.class)
+//                                .putParcelableArrayListExtra("photo", list)
+//                                .putExtra("curr", position));
+                        PhotoDialogFragment dialogFragment = PhotoDialogFragment.newInstance(s.getPath());
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+                                .addSharedElement(binding.image, "TransitionName");
+                        dialogFragment.show(transaction, s.getPath());
                     }
                 });
             }
