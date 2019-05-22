@@ -42,7 +42,9 @@
         <activity android:name=".activity.TextSpanActivity" />
         <activity android:name=".activity.PhotoActivity" />
         <activity android:name=".photo.SelectMediaActivity" />
-        <activity android:name=".photo.MediaShowActivity"></activity>
+        <activity android:name=".photo.MediaShowActivity" />
+        <activity android:name=".photo.ShowPhotoActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
     </application>
 
 </manifest>

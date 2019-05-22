@@ -63,7 +63,7 @@ public class ContentView extends LinearLayout implements StatusBar {
 
     @Override
     public StatusBar hideActionBar() {
-        if (activity instanceof FragmentActivity) {
+        if (activity instanceof AppCompatActivity) {
             ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
             if (actionBar != null) {
                 actionBar.hide();
