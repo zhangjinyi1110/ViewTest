@@ -2,6 +2,7 @@ package com.project.viewtest.photo;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentActivity;
