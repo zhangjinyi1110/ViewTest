@@ -13,6 +13,7 @@ import com.project.viewtest.R;
 import com.project.viewtest.adapter.SimpleAdapter;
 import com.project.viewtest.databinding.ActivitySelectMediaBinding;
 import com.project.viewtest.databinding.ItemSelectMediaBinding;
+import com.project.viewtest.statusbar.BarHelper;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ public class SelectMediaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivitySelectMediaBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_select_media);
+        BarHelper.with(this).hideActionBar();
         final ArrayList<Photo> list = MediaHelper.queryPhoto(this).queryAll();
         SimpleAdapter<Photo, ItemSelectMediaBinding> adapter = new SimpleAdapter<Photo, ItemSelectMediaBinding>(getApplicationContext()) {
             @Override

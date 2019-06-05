@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.project.viewtest.R;
 import com.project.viewtest.databinding.ActivityShowPhotoBinding;
+import com.project.viewtest.statusbar.BarHelper;
 
 public class ShowPhotoActivity extends FragmentActivity {
 
@@ -30,15 +31,15 @@ public class ShowPhotoActivity extends FragmentActivity {
         top = getIntent().getIntExtra("top", 0);
         width = getIntent().getIntExtra("width", 0);
         height = getIntent().getIntExtra("height", 0);
-        binding.image.setLeft(left);
-        binding.image.setTop(top);
+        binding.image.setX(left);
+        binding.image.setY(top);
         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(width, height);
         binding.image.setLayoutParams(layoutParams);
         Glide.with(this).load(getIntent().getStringExtra("url")).into(new DrawableImageViewTarget(binding.image) {
             @Override
             protected void setResource(@Nullable Drawable resource) {
                 super.setResource(resource);
-                show();
+//                show();
             }
         });
     }
@@ -48,7 +49,7 @@ public class ShowPhotoActivity extends FragmentActivity {
         final float wh = getResources().getDisplayMetrics().heightPixels;
         float w = width / ww;
         float h = height / wh;
-        ValueAnimator animator = ValueAnimator.ofFloat(Math.min(w, h), 1);
+        ValueAnimator animator = ValueAnimator.ofFloat(Math.max(w, h), 1);
         animator.setDuration(3000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -59,15 +60,15 @@ public class ShowPhotoActivity extends FragmentActivity {
                 ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(w, h);
                 binding.image.setLayoutParams(layoutParams);
                 Log.e("aaa", "onAnimationUpdate: " + w + "/" + h);
-//                if (left >= ww / 2) {
-//
-//                } else {
-//                    if (ww - left == width / 2) {
-//
-//                    } else {
-//
-//                    }
-//                }
+                if (left >= ww / 2) {
+
+                } else {
+                    if (ww - left == width / 2) {
+
+                    } else {
+
+                    }
+                }
             }
         });
         animator.start();
