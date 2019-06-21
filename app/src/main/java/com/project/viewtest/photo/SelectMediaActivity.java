@@ -48,8 +48,9 @@ public class SelectMediaActivity extends AppCompatActivity {
                                 .putExtra("url", s.getPath())
                                 .putExtra("left", lt[0])
                                 .putExtra("top", lt[1])
-                                .putExtra("width", binding.image.getMeasuredWidth())
-                                .putExtra("height", binding.image.getMeasuredHeight()));
+                                .putExtra("width", binding.image.getWidth())
+                                .putExtra("height", binding.image.getHeight()));
+                        overridePendingTransition(0, 0);
                     }
                 });
             }

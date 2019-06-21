@@ -7,9 +7,10 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/linear_bg"
         tools:context=".photo.ShowPhotoActivity">
 
         <ImageView
@@ -18,5 +19,5 @@
             android:id="@+id/image"
             android:contentDescription="@string/app_name" />
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 </layout>
