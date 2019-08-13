@@ -8,20 +8,20 @@ import android.view.Window;
 
 public class BarHelper {
 
-    public static StatusBar with(Activity activity) {
+    public static Bar with(Activity activity) {
         Window window = activity.getWindow();
         View d = window.getDecorView();
         ViewGroup contentView = d.findViewById(Window.ID_ANDROID_CONTENT);
         if (contentView.getChildCount() > 0) {
             View content = contentView.getChildAt(0);
-            if (content instanceof StatusBar) {
-                return (StatusBar) content;
+            if (content instanceof Bar) {
+                return (Bar) content;
             }
         }
-        return new ContentView(activity);
+        return new StatusBar(activity);
     }
 
-    public static StatusBar with(Fragment fragment) {
+    public static Bar with(Fragment fragment) {
         Activity activity = fragment.getActivity();
         if (activity == null) {
             throw new NullPointerException("The fragment parent activity is null");

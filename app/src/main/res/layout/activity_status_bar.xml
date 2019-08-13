@@ -19,5 +19,60 @@
             android:id="@+id/image"
             android:scaleType="fitXY" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/bjys"
+                android:text="背景颜色"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/bttp"
+                android:layout_marginTop="10dp"
+                android:text="背景图片"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ycbtl"
+                android:layout_marginTop="10dp"
+                android:text="隐藏标题栏"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ycztl"
+                android:layout_marginTop="10dp"
+                android:text="隐藏状态栏"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tmztl"
+                android:layout_marginTop="10dp"
+                android:text="透明状态栏"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/zths"
+                android:layout_marginTop="10dp"
+                android:text="黑色"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ztbs"
+                android:layout_marginTop="10dp"
+                android:text="白色"/>
+
+        </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
 </layout>
